@@ -73,6 +73,7 @@ def replace_non_word_characters(input_list):
     for item in input_list:
         # Replace non-word characters with '-'
         item=item.strip()
+        item=item.lower()
         new_item = re.sub(r'\W', '-', item)
         if len(new_item)>100:
             new_item=new_item[:100]
