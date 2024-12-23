@@ -1,5 +1,10 @@
 # Convert events from GitHub into readable, shareable content across different platforms.
 
+this is improvded from https://github.com/wanghaisheng/a-turn-paper-daily-track-to-blog-template, 
+
+and https://github.com/wanghaisheng/3dvision-paper-code-daily mkdocs and gh page,
+
+where now openai content  and image generation support 
 
 
 ### 1. **To Blog**
