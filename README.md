@@ -1,32 +1,32 @@
-manually build site with help of websim
+# turn github daily event to readable contents
 
 
 
-this may not perfect but is a start
+## to blog 
+
+convert to md
+
+support muilti theme and static site framwork , gatsy,atro,vite,
+
+## to post
+
+support social media platform, twitter,ins,telegram
 
 
-## feature 
+https://github.com/wanghaisheng/auto-branding-shopify-social-media-publish-tool/tree/master
 
 
-1. auto generate sitemap based on lang subfolder,including .html files
-2. auto check seo requirements avoid google redirection and not index issue
-3. auto submit url to google index use indexnow
-4.pc mobile responsive
-5. seo metadata
-6. google analytic and microsoft clarity
-7. pwa support
-8. keyword research
-   umbrella  trend  kgr spyfu
-10.  user  https://github.com/wanghaisheng/workers-users-cloudflare/tree/main
+## to podcast
 
-11.  dev
-    
-https://idx.google.com/applimode-7011803
+## to video
 
-12. image generation
+tiktok 
 
-logo, cover,
+youtube
 
-14.  blog  text generation  g4f
 
-https://github.com/wanghaisheng/auto-blog-g4f-action
+## to slide
+
+slideshare
+
+to comment
