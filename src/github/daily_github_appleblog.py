@@ -233,17 +233,17 @@ def save_image_locally(image_data, image_name):
     return image_path
 
 # Generate a cover image based on the prompt
-def generate_cover_image(prompt):
+def call_image_endpoint_local(api_url, api_key, prompt, size="1024x1024", n=1):
     prompt = prompt[:1000]
     headers = {
-        "Authorization": f"Bearer {IMAGE_API_KEY}",
+        "Authorization": f"Bearer {api_key}",
         "Content-Type": "application/json"
     }
     data = {
         "messages": [{"role": "user", "content": prompt}],
         "model": FLUX_MODEL
     }
-    response = requests.post(IMAGE_API_URL, headers=headers, data=json.dumps(data))
+    response = requests.post(api_url, headers=headers, data=json.dumps(data))
     
     if response.status_code == 200:
         result = response.json()
@@ -253,7 +253,9 @@ def generate_cover_image(prompt):
         if image_data:
             # Save the image locally
             image_name = f"{prompt[:10]}.png"  # Save with a short name based on prompt
-            image_path = save_image_locally(image_data.encode(), image_name)
+            # image_path = save_image_locally(image_data.encode(), image_name)
+            # if local save  
+            #image_url=domain+assets_read_folder+image_name
             image_url = BASE_URL + IMAGE_FOLDER + "/" + image_name  # URL to access the image
             return image_url
         else:

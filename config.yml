@@ -52,4 +52,4 @@ openai:
 
 # Specify the number of days within which repositories are considered "recently updated" 
 # default  1, 7,30
-days_threshold: 3000
+days_threshold: 1
