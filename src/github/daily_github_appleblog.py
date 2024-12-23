@@ -23,16 +23,18 @@ def load_config():
     return {}
 
 config = load_config()
-theme = 'appleblog'
+theme = config.get("blogtheme", 'appleblog')
+
 days_threshold = config.get("days_threshold", 1)
 
 assets_save_folder = config.get("assets_save_folder", '')
 assets_read_folder = config.get("assets_read_folder", '')
 
 
-CHAT_URL = config.get('chat_url', 'https://heisenberg-duckduckgo-66.deno.dev/v1/chat/completions')
-api_url = CHAT_URL
-api_key = os.getenv("API_KEY", "your_self_openai_api_access_token_here")
+api_url = config.get('OPENAI_API_URL', 'https://heisenberg-duckduckgo-66.deno.dev/v1/chat/completions')
+api_model = config.get("api_model", 'gpt-4o-mini')
+
+api_key = os.getenv("OPENAI_API_KEY", "your_self_openai_api_access_token_here")
 
 TAGS_SERVER_DIR_STORAG = config.get("tag_file_path", '')
 
@@ -52,7 +54,7 @@ if not os.path.exists(IMAGE_FOLDER):
     os.makedirs(IMAGE_FOLDER)
 
 # GitHub API Token
-GITHUB_TOKEN = os.getenv("GITHUB_TOKEN", "your_github_access_token_here")
+GITHUB_TOKEN = os.getenv("TOKEN", "your_github_access_token_here")
 SILICON_TOKEN = os.getenv("SILICON_TOKEN", "your_SILICON_TOKEN_access_token_here")
 
 print('your token', GITHUB_TOKEN)
@@ -73,7 +75,7 @@ def replace_non_word_characters(input_list):
         item=item.strip()
         new_item = re.sub(r'\W', '-', item)
         if len(new_item)>100:
-            new_item=new_iem[:100]
+            new_item=new_item[:100]
         new_item=new_item.replace('_','-')
         
         if new_item and new_item!='-':
@@ -117,8 +119,43 @@ def get_readme_content(owner, repo):
         return readme_content
     return None
 
-def siliconflow(text, token, model='Qwen2.5'):
-    url = "https://api.siliconflow.cn/v1/chat/completions"
+
+def openai_api_call(prompt,model='gpt-4o-mini'):
+    # Set the endpoint URL and headers
+    url='https://heisenberg-duckduckgo-66.deno.dev/v1/chat/completions'
+
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json"
+    }
+
+    # Define the data payload
+	# Modified
+    data = {"model":api_model, "messages": [{"role": "user", "content": prompt}]}
+
+    # Make the request
+    response = requests.post(url, headers=headers, json=data)
+
+    # Check for a successful response
+    if response.status_code == 200:
+        try:
+            data = response.json()
+
+            result = data['choices'][0]['message']['content']
+
+            return result
+        except Exception as e:
+            print("Error call openai api endpoint",e)
+            return None
+
+
+    else:
+        # return {"error": response.status_code, "message": response.text}
+        return None
+
+def siliconflow(text,token, model='Qwen2.5'):
+
+
     payload = {
         "model": "Qwen/Qwen2.5-7B-Instruct",
         "messages": [
@@ -138,7 +175,7 @@ def siliconflow(text, token, model='Qwen2.5'):
         "Content-Type": "application/json"
     }
 
-    response = requests.request("POST", url, json=payload, headers=headers)
+    response = requests.request("POST", api_url, json=payload, headers=headers)
 
     print(response.text)
     data = response.json()
@@ -151,17 +188,17 @@ def siliconflow(text, token, model='Qwen2.5'):
     return None
 
 # Extract keywords and tags using Chat class
-async def extract_keywords_and_tags(provider, text):
+async def extract_keywords_and_tags( text):
     text = text[:3000]
     prompt = f"Extract keywords from the following text:\n{text}\n, return keywords as comma separator:"
-    keywords_response = siliconflow(text=prompt, token=SILICON_TOKEN)
+    keywords_response = openai_api_call(prompt=prompt)
     print('---------generated keywords',keywords_response)
 
     keywords = keywords_response.split(":")[1] if ":" in keywords_response else keywords_response
     keywords=keywords.split(",")
 
     prompt = f"Extract tags from the following text:\n{text}\n, return tags as comma separator"
-    tags_response = siliconflow(text=prompt, token=SILICON_TOKEN)
+    tags_response = openai_api_call(prompt=prompt)
     print('---------generated tags',tags_response)
     tags_response = tags_response.split(":")[1] if ":" in tags_response else tags_response
     if "\n" in tags_response:
@@ -330,7 +367,7 @@ def update_apple_blog_tags_json(tags):
         with open(TAGS_SERVER_DIR_STORAG, 'w', encoding='utf-8') as file:
             json.dump({"tags": new}, file, ensure_ascii=False, indent=2)
 
-def build_frontmatter(author, cover_image_url, description, keywords, pubdate, tags, title):
+def build_frontmatter_appleblog(author, cover_image_url, description, keywords, pubdate, tags, title):
     frontmatter = {
         "author": author,
         "cover": {
@@ -392,7 +429,8 @@ def create_all_markdown_files(repos, username, chat, days_threshold=30):
         author = select_author()
 
         # Construct Markdown content
-        frontmatter = build_frontmatter(
+        if theme=='appleblog':
+            frontmatter = build_frontmatter_appleblog(
             author=author,
             cover_image_url=cover_image_url,
             description=description,
@@ -422,7 +460,7 @@ def create_all_markdown_files(repos, username, chat, days_threshold=30):
             file.write(md_content)
         print(f"Markdown file created: {filename}")
 #你想多久运行一次程序就设置时间间隔为多久 一个月 一周 一天
-async def create_new_markdown_files(repos, username, chat, days_threshold=1):
+async def create_new_markdown_files(repos, username, days_threshold=1):
     date_today = datetime.date.today().strftime("%Y-%m-%d")
     pubdate = datetime.datetime.now().strftime('%Y%m%d %H%M%S')
 
@@ -459,7 +497,7 @@ async def create_new_markdown_files(repos, username, chat, days_threshold=1):
         )
 
         # Extract keywords and tags using Chat class
-        keywords, tags = await extract_keywords_and_tags(chat, f"{repo_name} {description} {readme_content}")
+        keywords, tags = await extract_keywords_and_tags(f"{repo_name} {description} {readme_content}")
         if theme == 'appleblog':
             update_apple_blog_tags_json(tags)
 
@@ -467,7 +505,8 @@ async def create_new_markdown_files(repos, username, chat, days_threshold=1):
         author = select_author()
 
         # Construct Markdown content
-        frontmatter = build_frontmatter(
+        if theme=='appleblog':
+            frontmatter = build_frontmatter_appleblog(
             author=author,
             cover_image_url=cover_image_url,
             description=description,
@@ -496,7 +535,6 @@ async def main():
     try:
         print('main function start')
         # Initialize the chat with the model from config
-        provider='siliconslow'
         # Get the username from config
         username = config.get("username", "default_username")
         print('start to detect all repos')
@@ -505,7 +543,7 @@ async def main():
             print("No repositories found or failed to fetch repositories.")
             return
         print('create md for repos')
-        await create_new_markdown_files(repos, username, chat=provider,days_threshold=days_threshold)
+        await create_new_markdown_files(repos, username,days_threshold=days_threshold)
     except Exception as e:
         print(f"Exception in main: {e}")
         traceback.print_exc()

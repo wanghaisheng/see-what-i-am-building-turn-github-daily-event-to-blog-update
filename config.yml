@@ -13,10 +13,11 @@ output_folder: "themes/appleblog/src/pages/posts"
 tag_file_path: "themes/appleblog/src/data/tags.json"
 
 
-theme: "screwfast"
+blogtheme: "appleblog"
 # Folder to store the generated images
 image_folder: "themes/appleblog/public/assets"
 assets_save_folder: "themes/appleblog/public/assets"
+# diff theme serve static files different ,change it and adapt code if need
 assets_read_folder: "/assets/"
 
 
@@ -24,7 +25,14 @@ assets_read_folder: "/assets/"
 # Base URL for serving images, update this to match your server setup
 base_url: "http://localhost:3000/"
 
-chat_url: "https://heisenberg-duckduckgo-66.deno.dev/v1/chat/completions"
+OPENAI_API_URL: "https://heisenberg-duckduckgo-66.deno.dev/v1/chat/completions"
+# chat_url : "https://api.siliconflow.cn/v1/chat/completions"
+# different service support diff models, suit yourself
+    # "gpt-4o-mini"
+    # "claude-3-haiku"
+    # "llama"
+    # "mixtral"
+api_model: "gpt-4o-mini"
 
 # GitHub username to fetch repositories from
 username: "wanghaisheng"
