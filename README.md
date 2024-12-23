@@ -1,4 +1,6 @@
-# turn github daily event to readable contents
+# turn github daily event to readable contents 
+
+self deploy gpt-4omin and flux on cloudflare worker
 
 
 
