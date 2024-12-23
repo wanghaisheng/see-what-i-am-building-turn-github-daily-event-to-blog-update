@@ -24,6 +24,8 @@ def load_config():
 
 config = load_config()
 theme = config.get("blogtheme", 'appleblog')
+domain = config.get("domain", 'https://daily.borninsea.com')
+
 
 days_threshold = config.get("days_threshold", 1)
 
@@ -254,9 +256,9 @@ def call_image_endpoint_local(api_url, api_key, prompt, size="1024x1024", n=1):
         if image_data:
             # Save the image locally
             image_name = f"{prompt[:10]}.png"  # Save with a short name based on prompt
-            # image_path = save_image_locally(image_data.encode(), image_name)
+            image_path = save_image_locally(image_data.encode(), image_name)
             # if local save  
-            #image_url=domain+assets_read_folder+image_name
+            image_url=domain+assets_read_folder+image_name
             image_url = BASE_URL + IMAGE_FOLDER + "/" + image_name  # URL to access the image
             return image_url
         else:
