@@ -24,6 +24,8 @@ def load_config():
 
 config = load_config()
 theme = 'appleblog'
+days_threshold = config.get("days_threshold", 1)
+
 assets_save_folder = config.get("assets_save_folder", '')
 assets_read_folder = config.get("assets_read_folder", '')
 
@@ -503,7 +505,7 @@ async def main():
             print("No repositories found or failed to fetch repositories.")
             return
         print('create md for repos')
-        await create_new_markdown_files(repos, username, chat=provider,days_threshold=3000)
+        await create_new_markdown_files(repos, username, chat=provider,days_threshold=days_threshold)
     except Exception as e:
         print(f"Exception in main: {e}")
         traceback.print_exc()

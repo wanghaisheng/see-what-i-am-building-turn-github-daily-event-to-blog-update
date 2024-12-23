@@ -31,8 +31,8 @@ jobs:
 
     - name: Run test script
       run: |
-        node sitemap.js
-        node  generateKey.js
+        node src/seo/sitemap.js
+        node  src/seo/generateKey.js
 
     -
      name: Push

@@ -27,7 +27,7 @@ jobs:
       # Step 4: Run the SEO checker script
       - name: Run SEO Checker
         run: |
-          node seoChecker.js
+          node src/seo/seoChecker.js
           
       # Step 5: Upload SEO Check Results as Artifacts (Optional)
       - name: Upload SEO Check Results

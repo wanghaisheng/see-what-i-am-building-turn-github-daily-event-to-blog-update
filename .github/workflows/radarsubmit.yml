@@ -48,4 +48,4 @@ jobs:
 
       - name: Parse sitemap and submit URLs to Radar
         run: |
-          python radar_submit.py ${{ env.sitemap_file }}  # Pass the sitemap file or URL to the Python script
+          python src/seo/radar_submit.py ${{ env.sitemap_file }}  # Pass the sitemap file or URL to the Python script

@@ -25,7 +25,7 @@ jobs:
         npm install
 
     - name: Run sitemap validation
-      run: node validate-sitemap.js  # Make sure to run the script you wrote earlier
+      run: node src/seo/validate-sitemap.js  # Make sure to run the script you wrote earlier
 
     - name: Commit validation result to the repository
       run: |

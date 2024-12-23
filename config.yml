@@ -2,21 +2,21 @@
 
 # Author list for markdown files
 author_list:
-  - "John Doe"
-  - "Jane Smith"
-  - "Alice Cooper"
-  - "Bob Johnson"
+  - "Heisenberg"
+  # - "Jane Smith"
+  # - "Alice Cooper"
+  # - "Bob Johnson"
 
 # Output folder for generated markdown files
-output_folder: "appleblog/src/pages/posts"
+output_folder: "themes/appleblog/src/pages/posts"
 
-tag_file_path: "appleblog/src/data/tags.json"
+tag_file_path: "themes/appleblog/src/data/tags.json"
 
 
 theme: "screwfast"
 # Folder to store the generated images
-image_folder: "appleblog/public/assets"
-assets_save_folder: "appleblog/public/assets"
+image_folder: "themes/appleblog/public/assets"
+assets_save_folder: "themes/appleblog/public/assets"
 assets_read_folder: "/assets/"
 
 
@@ -42,5 +42,6 @@ flux_model: "FLUX.1-Schnell-CF"
 openai:
   model: "gpt-4o-mini"  # Set the model name you want to use
 
-# Specify the number of days within which repositories are considered "recently updated"
-days_threshold: 1
+# Specify the number of days within which repositories are considered "recently updated" 
+# default  1, 7,30
+days_threshold: 3000
