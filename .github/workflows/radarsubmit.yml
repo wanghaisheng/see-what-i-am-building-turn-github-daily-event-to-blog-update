@@ -1,9 +1,9 @@
 name: Parse Sitemap and Submit URLs to Radar
 
 on:
-  push:
-    branches:
-      - main  # Trigger the action on pushes to the main branch
+  # push:
+    # branches:
+      # - main  # Trigger the action on pushes to the main branch
   workflow_dispatch:
     inputs:
       sitemap_url:
