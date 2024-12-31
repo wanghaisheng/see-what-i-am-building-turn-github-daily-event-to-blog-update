@@ -12,6 +12,12 @@ where now openai content  and image generation support
 ## vote for static stack or theme supported 
 
 
+add support for mindmap
+
+https://markmap.js.org/
+
+
+
 
 ### 1. **To Blog**
 
