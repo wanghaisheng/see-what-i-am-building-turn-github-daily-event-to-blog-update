@@ -2,6 +2,8 @@
 
 ## astro theme
 
+https://github.com/wanghaisheng/astro-polyglot-starter
+
 https://github.com/penboxlab/Astroverse-i18n/tree/main
 
 https://github.com/CodeStitchOfficial/Advanced-Astro-i18n/tree/main/src
