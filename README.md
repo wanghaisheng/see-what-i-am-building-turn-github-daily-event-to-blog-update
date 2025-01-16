@@ -11,6 +11,7 @@ where now openai content  and image generation support
 
 ## vote for static stack or theme supported 
 
+publish to https://dev.to/
 
 add support for mindmap
 
