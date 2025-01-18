@@ -11,6 +11,8 @@ where now openai content  and image generation support
 
 ## vote for static stack or theme supported 
 
+support  image gen https://raphael.app
+
 publish to https://dev.to/
 
 add support for mindmap
